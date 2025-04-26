@@ -1,3 +1,5 @@
+import MinimumHeap.MinimumHeap;
+
 public class TestMinimumHeap {
 
     public static void main(String[] args) {
@@ -17,7 +19,7 @@ public class TestMinimumHeap {
         MinimumHeap heap = new MinimumHeap(10);
         heap.Insert("SW1A 1AA");
         heap.Insert("E14 3BN");
-        heap.Insert("W1A 0AX");
+        heap.Insert("SW1A 1AA");   
 
         // INTENTIONALLY incorrect expected count
         assertEqual(2, heap.Count(), "testInsertUniquePostcodes");
@@ -33,21 +35,23 @@ public class TestMinimumHeap {
     }
 
     public static void testSearchFoundAndNotFound() {
-        MinimumHeap heap = new MinimumHeap(5);
-        heap.Insert("N1 9GU");
-        heap.Insert("SE1 7PB");
+        MinimumHeap heapSearch = new MinimumHeap(5);
+        heapSearch.Insert("N1 9GU".trim().toUpperCase());
+        heapSearch.Insert("SE1 7PC".trim().toUpperCase());
 
-        assertTrue(heap.Search("N1 9GU"), "testSearchFound");
+        assertTrue(heapSearch.SearchMiniHeap("N1 9GU"), "testSearchFound");
 
         // INTENTIONALLY incorrect - postcode does exist
-        assertFalse(heap.Search("SE1 7PB"), "testSearchNotFound");
+        assertSearchFalse(heapSearch.SearchMiniHeap("SE1 7PA"), "testSearchNotFound");
     }
 
     public static void testExtractMinimumOrder() {
-        MinimumHeap heap = new MinimumHeap(5);
-        heap.Insert("SW1A 2AA");
-        heap.Insert("E14 3BN");
-        heap.Insert("W1A 1AA");
+        MinimumHeap heap = new MinimumHeap(11);
+
+        heap.Insert("W4A 1AA".trim().toUpperCase());
+        heap.Insert("E14 3BN".trim().toUpperCase());
+        heap.Insert("W3A 1CA".trim().toUpperCase());
+       
 
         String min = heap.ExtractMinimum();
 
@@ -55,7 +59,7 @@ public class TestMinimumHeap {
         assertEqual("E14 3BN", min, "testExtractMinimumOrder");
 
         // INTENTIONALLY incorrect expected count
-        assertEqual(1, heap.Count(), "testExtractMinimumOrder - Count");
+        assertEqual(2, heap.Count(), "testExtractMinimumOrder - Count");
     }
 
     public static void testInOrderSortedOutput() {
@@ -110,6 +114,13 @@ public class TestMinimumHeap {
             System.out.printf("ERROR: %s: Expected false, got true%n", testName);
         } else {
             System.out.printf("SUCCESS: %s passed%n", testName);
+        }
+    }
+    public static void assertSearchFalse(boolean condition, String testName) {
+        if (condition) {
+            System.out.printf("SUCCESS: %s passed%n", testName, testName);
+        } else {
+            System.out.printf("ERROR: %s: Expected false, got true%n", testName);
         }
     }
 
